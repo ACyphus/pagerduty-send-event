@@ -5,15 +5,34 @@ author: 'acyphus'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  pagerDutyRoutingKey:
+    description: 'The PagerDuty Integration Key.'
     required: true
-    default: '1000'
+  eventAction:
+    description: 'The type of event. Can be trigger, acknowledge or resolve.'
+    required: true
+    default: 'trigger'
+  summary:
+    description:
+      'A brief text summary of the event, used to generate the summaries/titles
+      of any associated alerts.'
+    required: true
+    default: 'Alert from ${ownerName}/${repoName} by ${actor}'
+  source:
+    description: 'The unique location of the affected system.'
+    required: false
+    default: 'GitHub Actions in ${ownerName}/${repoName}'
+  severity:
+    description:
+      'The perceived severity of the status the event is describing with respect
+      to the affected system.. Can be info, warning, error, or critical.'
+    required: true
+    default: 'critical'
 
 # Define your outputs here.
 outputs:
   time:
-    description: 'Your output description here'
+    description: 'Timestamp of the event.'
 
 runs:
   using: node20
