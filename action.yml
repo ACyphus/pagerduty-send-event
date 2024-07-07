@@ -1,6 +1,7 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'PagerDuty Send Event/Alert'
+description:
+  'Send an event to PagerDuty to trigger, acknowledge, or resolve incidents.'
+author: 'acyphus'
 
 # Define your inputs here.
 inputs:

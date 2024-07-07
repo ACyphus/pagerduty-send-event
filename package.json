@@ -1,21 +1,26 @@
 {
-  "name": "javascript-action",
-  "description": "GitHub Actions JavaScript Template",
+  "name": "pagerduty-send-event",
+  "description": "A GitHub Action for sending events to PagerDuty to trigger, acknowledge, or resolve incidents.",
   "version": "0.0.0",
-  "author": "",
+  "author": "acyphus",
   "private": true,
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/ACyphus/pagerduty-send-event",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/ACyphus/pagerduty-send-event.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/ACyphus/pagerduty-send-event/issues"
   },
   "keywords": [
-    "GitHub",
+    "PagerDuty",
     "Actions",
-    "JavaScript"
+    "Alert",
+    "Event",
+    "Incident",
+    "Trigger",
+    "Acknowledge",
+    "Resolve"
   ],
   "exports": {
     ".": "./dist/index.js"
