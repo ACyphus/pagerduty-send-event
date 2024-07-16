@@ -38,7 +38,7 @@ inputs:
       'The name of the monitoring client that is triggering this event. (This
       field is only used for trigger events.)'
     required: false
-    default: '${{github.context.action}}'
+    default: '${{github.action_repository}}'
   clientUrl:
     description:
       'The URL of the monitoring client that is triggering this event. (This
