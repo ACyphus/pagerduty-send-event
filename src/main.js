@@ -19,8 +19,8 @@ async function sendPagerDutyEvent(routingKey, payload) {
       .set('x-routing-key', routingKey)
 
     core.info(`PagerDuty event sent successfully`)
-    core.info(JSON.stringify(response, null, 2)) // Convert response object to JSON string
-    core.info(JSON.stringify(response.body, null, 2)) // Convert response body to JSON string
+    core.info(JSON.stringify(response, null, 2))
+    core.info(JSON.stringify(response.body, null, 2))
   } catch (error) {
     core.error(`Failed to send PagerDuty event: ${error.message}`)
     throw error // Rethrow to handle it in the calling function
