@@ -20,12 +20,13 @@ jobs:
         id: test-trigger-alert
         uses: ./
         with:
-          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
-          dedupKey: ${{ github.run_id }}
+          integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedup-key: ${{ github.run_id }}
 
       - name: Test acknowledging an alert
         id: test-acknowledge-alert
         uses: ./
         with:
-          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
-          dedupKey: ${{ github.run_id }}
+          integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedup-key: ${{ github.run_id }}
+          event-action: acknowledge

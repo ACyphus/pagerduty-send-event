@@ -34,14 +34,14 @@ async function sendPagerDutyEvent(routingKey, payload) {
 async function run() {
   try {
     // Get the inputs from the workflow file
-    const routingKey = core.getInput('pagerDutyRoutingKey', { required: true })
-    const dedupKey = core.getInput('dedupKey')
-    const eventAction = core.getInput('eventAction')
+    const routingKey = core.getInput('integration-key', { required: true })
+    const dedupKey = core.getInput('dedup-key')
+    const eventAction = core.getInput('event-action')
     const summary = core.getInput('summary')
     const source = core.getInput('source')
     const severity = core.getInput('severity')
     const client = core.getInput('client')
-    const clientUrl = core.getInput('clientUrl')
+    const clientUrl = core.getInput('client-url')
 
     // Access GitHub context
     const repository = github.context.repo.repo

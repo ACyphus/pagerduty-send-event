@@ -5,15 +5,15 @@ author: 'acyphus'
 
 # Define your inputs here.
 inputs:
-  pagerDutyRoutingKey:
+  integration-key:
     description: 'The PagerDuty Integration Key.'
     required: true
-  dedupKey:
+  dedup-key:
     description:
       'Identifies the alert to trigger, acknowledge, or resolve. Required unless
       the event_type is trigger.'
     required: false
-  eventAction:
+  event-action:
     description: 'The type of event. Can be trigger, acknowledge or resolve.'
     required: true
     default: 'trigger'
@@ -39,7 +39,7 @@ inputs:
       field is only used for trigger events.)'
     required: false
     default: '${{github.repository}}'
-  clientUrl:
+  client-url:
     description:
       'The URL of the monitoring client that is triggering this event. (This
       field is only used for trigger events.)'

@@ -57,9 +57,9 @@ jobs:
         id: test-trigger-alert
         uses: ./
         with:
-          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
-          dedupKey: ${{ github.run_id }}
-          eventAction: trigger
+          integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedup-key: ${{ github.run_id }}
+          event-action: trigger
           summary:
             'Test alert from ${{ github.repository }} by ${{ github.actor }}'
           source: 'GitHub Actions in ${{ github.repository }}'
@@ -69,9 +69,9 @@ jobs:
         id: test-acknowledge-alert
         uses: ./
         with:
-          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
-          dedupKey: ${{ github.run_id }}
-          eventAction: acknowledge
+          integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedup-key: ${{ github.run_id }}
+          event-action: acknowledge
           summary:
             'Test alert from ${{ github.repository }} by ${{ github.actor }}'
           source: 'GitHub Actions in ${{ github.repository }}'
