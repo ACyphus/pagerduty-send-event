@@ -1,205 +1,190 @@
-# Create a JavaScript Action
+# PagerDuty Send Event GitHub Action
 
 [![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
 
-Use this template to bootstrap the creation of a JavaScript action. :rocket:
+Trigger, acknowledge, and resolve events and incidents in PagerDuty with this
+GitHub Action.
 
-This template includes compilation support, tests, a validation workflow,
-publishing, and versioning guidance.
+Designed with useful defaults, this Action provides an easy way to start sending
+events to PagerDuty while allowing plenty of customization for your specific
+workflow needs.
 
-If you are new, there's also a simpler introduction in the
-[Hello world JavaScript action repository](https://github.com/actions/hello-world-javascript-action).
+## Getting started
 
-## Create Your Own Action
+To send events to PagerDuty, you'll need to set up a service integration and
+copy the integration key into an Actions secret in your repository:
 
-To create your own action, you can use this repository as a template! Just
-follow the below instructions:
+1. Create a service integration in PagerDuty:
+   1. Go to PagerDuty > "Services" > Pick your service > "Integrations" > "Add a
+      new integration"
+   2. Choose "Events API v2" and click "Add"
+   3. Click the cog icon and copy the integration key
+2. Set up an Actions secret in your GitHub repository named
+   `PAGERDUTY_INTEGRATION_KEY`:
+   https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository
 
-1. Click the **Use this template** button at the top of the repository
-1. Select **Create a new repository**
-1. Select an owner and name for your new repository
-1. Click **Create repository**
-1. Clone your new repository
+### Simple workflow
 
-> [!IMPORTANT]
->
-> Make sure to remove or update the [`CODEOWNERS`](./CODEOWNERS) file! For
-> details on how to use this file, see
-> [About code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
+In your `steps`:
 
-## Initial Setup
-
-After you've cloned the repository to your local machine or codespace, you'll
-need to perform some initial setup steps before you can develop your action.
-
-> [!NOTE]
->
-> You'll need to have a reasonably modern version of
-> [Node.js](https://nodejs.org) handy. If you are using a version manager like
-> [`nodenv`](https://github.com/nodenv/nodenv) or
-> [`nvm`](https://github.com/nvm-sh/nvm), you can run `nodenv install` in the
-> root of your repository to install the version specified in
-> [`package.json`](./package.json). Otherwise, 20.x or later should work!
-
-1. :hammer_and_wrench: Install the dependencies
-
-   ```bash
-   npm install
-   ```
-
-1. :building_construction: Package the JavaScript for distribution
-
-   ```bash
-   npm run bundle
-   ```
-
-1. :white_check_mark: Run the tests
-
-   ```bash
-   $ npm test
-
-   PASS  ./index.test.js
-     ✓ throws invalid number (3ms)
-     ✓ wait 500 ms (504ms)
-     ✓ test runs (95ms)
-
-   ...
-   ```
-
-## Update the Action Metadata
-
-The [`action.yml`](action.yml) file defines metadata about your action, such as
-input(s) and output(s). For details about this file, see
-[Metadata syntax for GitHub Actions](https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions).
-
-When you copy this repository, update `action.yml` with the name, description,
-inputs, and outputs for your action.
-
-## Update the Action Code
-
-The [`src/`](./src/) directory is the heart of your action! This contains the
-source code that will be run when your action is invoked. You can replace the
-contents of this directory with your own code.
-
-There are a few things to keep in mind when writing your action code:
-
-- Most GitHub Actions toolkit and CI/CD operations are processed asynchronously.
-  In `main.js`, you will see that the action is run in an `async` function.
-
-  ```javascript
-  const core = require('@actions/core')
-  //...
-
-  async function run() {
-    try {
-      //...
-    } catch (error) {
-      core.setFailed(error.message)
-    }
-  }
-  ```
-
-  For more information about the GitHub Actions toolkit, see the
-  [documentation](https://github.com/actions/toolkit/blob/master/README.md).
-
-So, what are you waiting for? Go ahead and start customizing your action!
-
-1. Create a new branch
-
-   ```bash
-   git checkout -b releases/v1
-   ```
-
-1. Replace the contents of `src/` with your action code
-1. Add tests to `__tests__/` for your source code
-1. Format, test, and build the action
-
-   ```bash
-   npm run all
-   ```
-
-   > [!WARNING]
-   >
-   > This step is important! It will run [`ncc`](https://github.com/vercel/ncc)
-   > to build the final JavaScript action code with all dependencies included.
-   > If you do not run this step, your action will not work correctly when it is
-   > used in a workflow. This step also includes the `--license` option for
-   > `ncc`, which will create a license file for all of the production node
-   > modules used in your project.
-
-1. Commit your changes
-
-   ```bash
-   git add .
-   git commit -m "My first action is ready!"
-   ```
-
-1. Push them to your repository
-
-   ```bash
-   git push -u origin releases/v1
-   ```
-
-1. Create a pull request and get feedback on your action
-1. Merge the pull request into the `main` branch
-
-Your action is now published! :rocket:
-
-For information about versioning your action, see
-[Versioning](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-in the GitHub Actions toolkit.
-
-## Validate the Action
-
-You can now validate the action by referencing it in a workflow file. For
-example, [`ci.yml`](./.github/workflows/ci.yml) demonstrates how to reference an
-action in the same repository.
-
-```yaml
-steps:
-  - name: Checkout
-    id: checkout
-    uses: actions/checkout@v3
-
-  - name: Test Local Action
-    id: test-action
-    uses: ./
-    with:
-      milliseconds: 1000
-
-  - name: Print Output
-    id: output
-    run: echo "${{ steps.test-action.outputs.time }}"
+```yml
+- name: Send event to PagerDuty
+  uses: ACyphus/pagerduty-send-event@v1
+  with:
+    integration-key: ${{ secrets.PAGERDUTY_INTEGRATION_KEY }}
+    dedup-key: ${{ github.run_id }}
 ```
 
-For example workflow runs, check out the
-[Actions tab](https://github.com/actions/javascript-action/actions)! :rocket:
+This will trigger a critical alert in your service.
 
 ## Usage
 
-After testing, you can create version tag(s) that developers can use to
-reference different stable versions of your action. For more information, see
-[Versioning](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-in the GitHub Actions toolkit.
+This Action can be used in many ways, such as triggering an alert
+[if a CI job fails](https://docs.github.com/en/actions/learn-github-actions/expressions#failure)
+or when a new issue is opened with a specific label. The Action can also be used
+to acknowledge or resolve existing alerts.
 
-To include the action in a workflow in another repository, you can use the
-`uses` syntax with the `@` symbol to reference a specific branch, tag, or commit
-hash.
+### Inputs
 
-```yaml
-steps:
-  - name: Checkout
-    id: checkout
-    uses: actions/checkout@v4
+#### `integration-key`
 
-  - name: Run my Action
-    id: run-action
-    uses: actions/javascript-action@v1 # Commit with the `v1` tag
-    with:
-      milliseconds: 1000
+The PagerDuty Integration Key. Used to route your event to the correct service.
 
-  - name: Print Output
-    id: output
-    run: echo "${{ steps.run-action.outputs.time }}"
+_Required for all events_
+
+Default: None
+
+#### `dedup-key`
+
+Identifies the alert to `trigger`, `acknowledge`, or `resolve`.
+
+_Required, unless the `event_type` is `trigger`_
+
+Default: None
+
+#### `event-action`
+
+The type of event. Can be `trigger`, `acknowledge`, or `resolve`.
+
+Default: `trigger`
+
+#### `summary`
+
+A brief text summary of the event, used to generate the summaries/titles of any
+associated alerts.
+
+Default: `Alert from ${{github.repository}} by ${{github.actor}}`
+
+#### `source`
+
+The unique location of the affected system.
+
+Default: `GitHub Actions in ${{github.repository}}`
+
+#### `severity`
+
+The perceived severity of the status the event is describing with respect to the
+affected system. Can be `info`, `warning`, `error`, or `critical`.
+
+Default: `critical`
+
+#### `client`
+
+The name of the monitoring client that is triggering this event. This field is
+only used for `trigger` events.
+
+Default: `${{github.repository}}`
+
+#### `client-url`
+
+The URL of the monitoring client that is triggering this event. This field is
+only used for `trigger` events.
+
+Default:
+`https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}`
+
+### Example alert on CI failure
+
+This example will send an event to PagerDuty if any CI tests fail:
+
+```yml
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  test-javascript:
+    name: JavaScript Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+
+      - name: Install Dependencies
+        id: npm-ci
+        run: npm ci
+
+      - name: Test
+        id: npm-ci-test
+        run: npm run ci-test
+
+      - name: Alert PagerDuty on failure
+        if: ${{ failure() }}
+        uses: ACyphus/pagerduty-send-event@v1
+        with:
+          integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedup-key: ${{ github.run_id }}
+          event-action: trigger
+          summary: 'CI test failure in ${{ github.repository }}'
+          source: 'GitHub Actions in ${{ github.repository }}'
+          severity: error
+```
+
+### Example alert on new issue with label
+
+This example will send an event to PagerDuty when an issue with a specific label
+is opened:
+
+```yml
+name: lead handler
+
+on:
+  issues:
+    types: opened
+
+env:
+  ISSUE_URL: ${{ github.event.issue.html_url }}
+  ISSUE_ID: ${{ github.event.issue.number }}
+  TITLE: ${{ github.event.issue.title }}
+
+jobs:
+  alert-on-vulnerability-report:
+    if: contains(github.event.issue.labels.*.name,'vulnerability')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Alert PagerDuty on new vulnerability report
+        uses: ACyphus/pagerduty-send-event@v1
+        with:
+          integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedup-key: ${{ env.ISSUE_ID }}
+          event-action: trigger
+          summary: 'Vuln report: ${{ env.TITLE }}'
+          source: 'GitHub Actions in ${{ github.repository }}'
+          severity: critical
+          client: '${{ github.respository}}#${{ env.ISSUE_ID }}'
+          client-url: ${{ env.ISSUE_URL }}
 ```
