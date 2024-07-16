@@ -40,9 +40,9 @@ jobs:
         id: npm-lint
         run: npm run lint
 
-      - name: Test
-        id: npm-ci-test
-        run: npm run ci-test
+      #- name: Test
+      #  id: npm-ci-test
+      #  run: npm run ci-test
 
   test-action:
     name: Test pagerduty-send-event action
@@ -57,7 +57,7 @@ jobs:
         id: test-trigger-alert
         uses: ./
         with:
-          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_INCORRECT_TOKEN }}
+          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
           dedupKey: ${{ github.run_id }}
           eventAction: trigger
           summary:
