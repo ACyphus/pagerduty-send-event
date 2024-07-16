@@ -38,7 +38,7 @@ inputs:
       'The URL of the monitoring client that is triggering this event. (This
       field is only used for trigger events.)'
     required: false
-    default: 'https://github.com/${github.repository}/actions/runs/${github.run_id}'
+    default: 'https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}'
 
 # Define your outputs here.
 outputs:
