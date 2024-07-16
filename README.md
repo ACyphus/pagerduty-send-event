@@ -108,6 +108,8 @@ Default:
 
 This example will send an event to PagerDuty if any CI tests fail:
 
+`.github/workflows/ci.yml`
+
 ```yml
 name: Continuous Integration
 
@@ -158,8 +160,10 @@ jobs:
 This example will send an event to PagerDuty when an issue with a specific label
 is opened:
 
+`.github/workflows/vuln-alert.yml`
+
 ```yml
-name: lead handler
+name: vuln alert
 
 on:
   issues:
