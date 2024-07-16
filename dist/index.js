@@ -38362,7 +38362,9 @@ async function sendPagerDutyEvent(routingKey, payload) {
       .set('Content-Type', 'application/json')
       .set('x-routing-key', routingKey)
 
-    core.info(`PagerDuty event sent successfully: ${response.body}`)
+    core.info(`PagerDuty event sent successfully`)
+    core.info(response)
+    core.info(response.body)
   } catch (error) {
     core.error(`Failed to send PagerDuty event: ${error.message}`)
     throw error // Rethrow to handle it in the calling function
