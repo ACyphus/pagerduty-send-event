@@ -41,12 +41,12 @@ async function run() {
     const clientUrl = core.getInput('clientUrl')
 
     // Access GitHub context
-    const repository = github.repository
-    const sha = github.sha
-    const refName = github.ref_name
-    const event = github.event_name
-    const actor = github.actor
-    const action = github.action_repository
+    const repository = github.context.repository
+    const sha = github.context.sha
+    const refName = github.context.ref_name
+    const event = github.context.event_name
+    const actor = github.context.actor
+    const action = github.context.action_repository
 
     // Payload for PagerDuty Events API
     const payload = {
