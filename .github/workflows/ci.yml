@@ -11,6 +11,11 @@ on:
 permissions:
   contents: read
 
+env:
+  REPO: github.context.repo.repo
+  OWNER: github.context.repo.owner
+  ACTOR: github.actor
+
 jobs:
   test-javascript:
     name: JavaScript Tests
@@ -53,17 +58,28 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action
-        id: test-action
+      - name: Test triggering an alert
+        id: test-trigger-alert
         uses: ./
         with:
           pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
           dedupKey: ${{ github.run_id }}
           eventAction: trigger
-          summary: 'Test alert from ${ownerName}/${repoName} by ${actor}'
-          source: 'GitHub Actions in ${ownerName}/${repoName}'
+          summary:
+            'Test alert from ${{ env.OWNER }}/${{ env.REPO }} by ${{ env.ACTOR
+            }}'
+          source: 'GitHub Actions in ${{ env.OWNER }}/${{ env.REPO }}'
           severity: critical
 
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+      - name: Test acknowledging an alert
+        id: test-acknowledge-alert
+        uses: ./
+        with:
+          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedupKey: ${{ github.run_id }}
+          eventAction: acknowledge
+          summary:
+            'Test alert from ${{ env.OWNER }}/${{ env.REPO }} by ${{ env.ACTOR
+            }}'
+          source: 'GitHub Actions in ${{ env.OWNER }}/${{ env.REPO }}'
+          severity: critical
