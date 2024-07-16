@@ -38388,7 +38388,7 @@ async function run() {
     const repository = github.context.repo.repo
     const repoOwner = github.context.repo.owner
     const sha = github.context.sha
-    const refName = github.context.refName
+    const ref = github.context.ref
     const event = github.context.eventName
     const actor = github.context.actor
     const action = github.context.action
@@ -38406,7 +38406,7 @@ async function run() {
             repository,
             repo_owner: repoOwner,
             sha,
-            ref_name: refName,
+            ref,
             event,
             actor
           }
