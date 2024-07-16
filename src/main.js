@@ -40,6 +40,7 @@ async function run() {
     const summary = core.getInput('summary')
     const source = core.getInput('source')
     const severity = core.getInput('severity')
+    const client = core.getInput('client')
     const clientUrl = core.getInput('clientUrl')
 
     // Access GitHub context
@@ -49,7 +50,6 @@ async function run() {
     const ref = github.context.ref
     const event = github.context.eventName
     const actor = github.context.actor
-    const action = github.context.action
 
     // Payload for PagerDuty Events API
     const payload = {
@@ -70,7 +70,7 @@ async function run() {
           }
         }
       },
-      client: action,
+      client,
       client_url: clientUrl
     }
 

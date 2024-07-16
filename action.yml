@@ -33,6 +33,12 @@ inputs:
       to the affected system.. Can be info, warning, error, or critical.'
     required: true
     default: 'critical'
+  client:
+    description:
+      'The name of the monitoring client that is triggering this event. (This
+      field is only used for trigger events.)'
+    required: false
+    default: '${github.context.action}'
   clientUrl:
     description:
       'The URL of the monitoring client that is triggering this event. (This
