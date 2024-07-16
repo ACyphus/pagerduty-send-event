@@ -46,27 +46,28 @@ async function run() {
     const sha = github.context.sha
     const eventName = github.context.eventName
     const actor = github.context.actor
+    const action = github.action_repository
 
     // Payload for PagerDuty Events API
     const payload = {
       event_action: eventAction,
       dedup_key: dedupKey,
       payload: {
-        summary: summary,
-        source: source,
-        severity: severity,
+        summary,
+        source,
+        severity,
         custom_details: {
           github: {
             repo: repoName,
             owner: ownerName,
             repo_nwo: `${ownerName}/${repoName}`,
-            sha: sha,
+            sha,
             event: eventName,
-            actor: actor
+            actor
           }
         }
       },
-      client: 'acyphus/pagerduty-send-event',
+      client: action,
       client_url: clientUrl
     }
 

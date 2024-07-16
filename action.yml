@@ -22,11 +22,11 @@ inputs:
       'A brief text summary of the event, used to generate the summaries/titles
       of any associated alerts.'
     required: true
-    default: 'Alert from ${ownerName}/${repoName} by ${actor}'
+    default: 'Alert from ${github.repository} by ${github.actor}'
   source:
     description: 'The unique location of the affected system.'
     required: false
-    default: 'GitHub Actions in ${ownerName}/${repoName}'
+    default: 'GitHub Actions in ${github.repository}'
   severity:
     description:
       'The perceived severity of the status the event is describing with respect
@@ -38,7 +38,7 @@ inputs:
       'The URL of the monitoring client that is triggering this event. (This
       field is only used for trigger events.)'
     required: false
-    default: 'https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}'
+    default: 'https://github.com/${github.repository}/actions/runs/${github.run_id}'
 
 # Define your outputs here.
 outputs:
