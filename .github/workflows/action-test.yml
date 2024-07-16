@@ -1,12 +1,7 @@
 name: Testing
 
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -27,8 +22,6 @@ jobs:
         with:
           pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
           dedupKey: ${{ github.run_id }}
-          summary:
-            'Test alert from ${{ github.repository }} by ${{ github.actor }}'
 
       - name: Test acknowledging an alert
         id: test-acknowledge-alert
