@@ -1,6 +1,6 @@
 const core = require('@actions/core')
-const superagent = require('superagent') // Import superagent
-const github = require('@actions/github') // Import @actions/github
+const superagent = require('superagent')
+const github = require('@actions/github')
 
 /**
  * Send a POST request to PagerDuty Events V2 API.
