@@ -33,10 +33,12 @@ async function run() {
   try {
     // Get the inputs from the workflow file
     const routingKey = core.getInput('pagerDutyRoutingKey', { required: true })
+    const dedupKey = core.getInput('dedupKey')
     const eventAction = core.getInput('eventAction')
     const summary = core.getInput('summary')
     const source = core.getInput('source')
     const severity = core.getInput('severity')
+    const clientUrl = core.getInput('clientUrl')
 
     // Access GitHub context
     const repoName = github.context.repo.repo
@@ -48,6 +50,7 @@ async function run() {
     // Payload for PagerDuty Events API
     const payload = {
       event_action: eventAction,
+      dedup_key: dedupKey,
       payload: {
         summary: summary,
         source: source,
@@ -62,7 +65,9 @@ async function run() {
             actor: actor
           }
         }
-      }
+      },
+      client: 'acyphus/pagerduty-send-event',
+      client_url: clientUrl
     }
 
     // Send a PagerDuty event

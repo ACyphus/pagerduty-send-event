@@ -43,3 +43,27 @@ jobs:
       - name: Test
         id: npm-ci-test
         run: npm run ci-test
+
+  test-action:
+    name: Test pagerduty-send-event action
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action
+        id: test-action
+        uses: ./
+        with:
+          pagerDutyRoutingKey: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
+          dedupKey: ${{ github.run_id }}
+          eventAction: trigger
+          summary: 'Test alert from ${ownerName}/${repoName} by ${actor}'
+          source: 'GitHub Actions in ${ownerName}/${repoName}'
+          severity: critical
+
+      - name: Print Output
+        id: output
+        run: echo "${{ steps.test-action.outputs.time }}"
