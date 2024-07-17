@@ -2,9 +2,12 @@
 MD004:
   style: dash
 
+# Line length
+MD013: false
+
 # Ordered list item prefix
 MD029:
-  style: one
+  style: one_or_ordered
 
 # Spaces after list markers
 MD030:
