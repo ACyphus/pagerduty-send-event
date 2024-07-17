@@ -3,26 +3,19 @@
 [![GitHub Super-Linter](https://github.com/actions/javascript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
 
-Trigger, acknowledge, and resolve events and incidents in PagerDuty with this
-GitHub Action.
+Trigger, acknowledge, and resolve events and incidents in PagerDuty with this GitHub Action.
 
-Designed with useful defaults, this Action provides an easy way to start sending
-events to PagerDuty while allowing plenty of customization for your specific
-workflow needs.
+Designed with useful defaults, this Action provides an easy way to start sending events to PagerDuty while allowing plenty of customization for your specific workflow needs.
 
 ## Getting started
 
-To send events to PagerDuty, you'll need to set up a service integration and
-copy the integration key into an Actions secret in your repository:
+To send events to PagerDuty, you'll need to set up a service integration and copy the integration key into an Actions secret in your repository:
 
 1. Create a service integration in PagerDuty:
-   1. Go to PagerDuty > "Services" > Pick your service > "Integrations" > "Add a
-      new integration"
-   2. Choose "Events API v2" and click "Add"
-   3. Click the cog icon and copy the integration key
-2. Set up an Actions secret in your GitHub repository named
-   `PAGERDUTY_INTEGRATION_KEY`:
-   https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository
+  a. Go to PagerDuty > "Services" > Pick your service > "Integrations" > "Add a new integration"
+  b. Choose "Events API v2" and click "Add"
+  c. Click the cog icon and copy the integration key
+2. Set up an [Actions secret in your GitHub repository named `PAGERDUTY_INTEGRATION_KEY`](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)
 
 ### Simple workflow
 
@@ -40,10 +33,7 @@ This will trigger a critical alert in your service.
 
 ## Usage
 
-This Action can be used in many ways, such as triggering an alert
-[if a CI job fails](https://docs.github.com/en/actions/learn-github-actions/expressions#failure)
-or when a new issue is opened with a specific label. The Action can also be used
-to acknowledge or resolve existing alerts.
+This Action can be used in many ways, such as triggering an alert [if a CI job fails](https://docs.github.com/en/actions/learn-github-actions/expressions#failure) or when a new issue is opened with a specific label. The Action can also be used to acknowledge or resolve existing alerts.
 
 ### Inputs
 
@@ -51,7 +41,7 @@ to acknowledge or resolve existing alerts.
 
 The PagerDuty Integration Key. Used to route your event to the correct service.
 
-_Required for all events_
+Required for all events
 
 Default: None
 
@@ -59,7 +49,7 @@ Default: None
 
 Identifies the alert to `trigger`, `acknowledge`, or `resolve`.
 
-_Required, unless the `event_type` is `trigger`_
+Required, unless the `event_type` is `trigger`
 
 Default: None
 
@@ -157,8 +147,7 @@ jobs:
 
 ### Example alert on new issue with label
 
-This example will send an event to PagerDuty when an issue with a specific label
-is opened:
+This example will send an event to PagerDuty when an issue with a specific label is opened:
 
 `.github/workflows/vuln-alert.yml`
 
