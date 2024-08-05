@@ -8,7 +8,7 @@ const github = require('@actions/github')
  * @param {Object} payload The payload to send to PagerDuty.
  * @returns {Promise<void>} Resolves when the request is complete.
  */
-async function sendPagerDutyEvent (routingKey, payload) {
+async function sendPagerDutyEvent(routingKey, payload) {
   const pagerDutyEventsApiUrl = 'https://events.pagerduty.com/v2/enqueue'
 
   try {
@@ -31,7 +31,7 @@ async function sendPagerDutyEvent (routingKey, payload) {
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
-async function run () {
+async function run() {
   try {
     // Get the inputs from the workflow file
     const routingKey = core.getInput('integration-key', { required: true })
