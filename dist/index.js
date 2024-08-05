@@ -38362,7 +38362,7 @@ async function sendPagerDutyEvent(routingKey, payload) {
       .set('Content-Type', 'application/json')
       .set('x-routing-key', routingKey)
 
-    core.info(`PagerDuty event sent successfully`)
+    core.info('PagerDuty event sent successfully')
     core.info(JSON.stringify(response, null, 2))
     core.info(JSON.stringify(response.body, null, 2))
   } catch (error) {
