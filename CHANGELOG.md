@@ -18,7 +18,7 @@ and this project adheres to
 
 - Fixed security alerts based on old dependencies
 
-## [1.0.0] - 2025-07-20
+## [1.0.0] - 2024-07-16
 
 ### Added
 
