@@ -1,4 +1,4 @@
-name: Testing
+name: Manual Action Testing
 
 on:
   workflow_dispatch:
@@ -22,6 +22,11 @@ jobs:
         with:
           integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
           dedup-key: ${{ github.run_id }}
+          event-action: trigger
+          summary:
+            'Test alert from ${{ github.repository }} by ${{ github.actor }}'
+          source: 'GitHub Actions in ${{ github.repository }}'
+          severity: critical
 
       - name: Test acknowledging an alert
         id: test-acknowledge-alert
@@ -30,3 +35,7 @@ jobs:
           integration-key: ${{ secrets.PAGERDUTY_TESTING_TOKEN }}
           dedup-key: ${{ github.run_id }}
           event-action: acknowledge
+          summary:
+            'Test alert from ${{ github.repository }} by ${{ github.actor }}'
+          source: 'GitHub Actions in ${{ github.repository }}'
+          severity: critical
