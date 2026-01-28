@@ -1,6 +1,23 @@
 const core = require('@actions/core')
 const superagent = require('superagent')
-const github = require('@actions/github')
+
+/**
+ * Get GitHub context from environment variables.
+ * @returns {Object} GitHub context information.
+ */
+function getGitHubContext() {
+  const repository = process.env.GITHUB_REPOSITORY || ''
+  const [repoOwner, repo] = repository.split('/')
+
+  return {
+    repository: repo || '',
+    repoOwner: repoOwner || '',
+    sha: process.env.GITHUB_SHA || '',
+    ref: process.env.GITHUB_REF || '',
+    event: process.env.GITHUB_EVENT_NAME || '',
+    actor: process.env.GITHUB_ACTOR || ''
+  }
+}
 
 /**
  * Send a POST request to PagerDuty Events V2 API.
@@ -43,13 +60,8 @@ async function run() {
     const client = core.getInput('client')
     const clientUrl = core.getInput('client-url')
 
-    // Access GitHub context
-    const repository = github.context.repo.repo
-    const repoOwner = github.context.repo.owner
-    const sha = github.context.sha
-    const ref = github.context.ref
-    const event = github.context.eventName
-    const actor = github.context.actor
+    // Access GitHub context from environment variables
+    const { repository, repoOwner, sha, ref, event, actor } = getGitHubContext()
 
     // Payload for PagerDuty Events API
     const payload = {
