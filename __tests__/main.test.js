@@ -645,4 +645,86 @@ describe('run', () => {
       )
     })
   })
+
+  describe('GitHub context edge cases', () => {
+    test('should handle missing GITHUB_REPOSITORY', async () => {
+      // Arrange
+      delete process.env.GITHUB_REPOSITORY
+
+      core.getInput.mockImplementation(key => {
+        const inputs = {
+          'integration-key': 'test-key',
+          'event-action': 'trigger',
+          summary: 'Test summary',
+          source: 'test-source',
+          severity: 'critical'
+        }
+        return inputs[key] || ''
+      })
+
+      // Act
+      await run()
+
+      // Assert - should handle gracefully with empty values
+      const sentPayload = mockSend.mock.calls[0][0]
+      expect(sentPayload.payload.custom_details.github.repository).toBe('')
+      expect(sentPayload.payload.custom_details.github.repo_owner).toBe('')
+    })
+
+    test('should handle GITHUB_REPOSITORY without slash', async () => {
+      // Arrange
+      process.env.GITHUB_REPOSITORY = 'just-a-repo-name'
+
+      core.getInput.mockImplementation(key => {
+        const inputs = {
+          'integration-key': 'test-key',
+          'event-action': 'trigger',
+          summary: 'Test summary',
+          source: 'test-source',
+          severity: 'critical'
+        }
+        return inputs[key] || ''
+      })
+
+      // Act
+      await run()
+
+      // Assert - should handle gracefully with empty values
+      const sentPayload = mockSend.mock.calls[0][0]
+      expect(sentPayload.payload.custom_details.github.repository).toBe('')
+      expect(sentPayload.payload.custom_details.github.repo_owner).toBe('')
+    })
+
+    test('should handle empty environment variables', async () => {
+      // Arrange
+      process.env.GITHUB_REPOSITORY = ''
+      process.env.GITHUB_SHA = ''
+      process.env.GITHUB_REF = ''
+      process.env.GITHUB_EVENT_NAME = ''
+      process.env.GITHUB_ACTOR = ''
+
+      core.getInput.mockImplementation(key => {
+        const inputs = {
+          'integration-key': 'test-key',
+          'event-action': 'trigger',
+          summary: 'Test summary',
+          source: 'test-source',
+          severity: 'critical'
+        }
+        return inputs[key] || ''
+      })
+
+      // Act
+      await run()
+
+      // Assert - should handle gracefully with empty values
+      const sentPayload = mockSend.mock.calls[0][0]
+      expect(sentPayload.payload.custom_details.github.repository).toBe('')
+      expect(sentPayload.payload.custom_details.github.repo_owner).toBe('')
+      expect(sentPayload.payload.custom_details.github.sha).toBe('')
+      expect(sentPayload.payload.custom_details.github.ref).toBe('')
+      expect(sentPayload.payload.custom_details.github.event).toBe('')
+      expect(sentPayload.payload.custom_details.github.actor).toBe('')
+    })
+  })
 })

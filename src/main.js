@@ -7,11 +7,19 @@ const superagent = require('superagent')
  */
 function getGitHubContext() {
   const repository = process.env.GITHUB_REPOSITORY || ''
-  const [repoOwner, repo] = repository.split('/')
+  let repoOwner = ''
+  let repo = ''
+
+  // Parse repository name (format: owner/repo)
+  if (repository.includes('/')) {
+    const parts = repository.split('/')
+    repoOwner = parts[0] || ''
+    repo = parts[1] || ''
+  }
 
   return {
-    repository: repo || '',
-    repoOwner: repoOwner || '',
+    repository: repo,
+    repoOwner,
     sha: process.env.GITHUB_SHA || '',
     ref: process.env.GITHUB_REF || '',
     event: process.env.GITHUB_EVENT_NAME || '',
