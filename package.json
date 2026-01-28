@@ -1,7 +1,7 @@
 {
   "name": "pagerduty-send-event",
   "description": "A GitHub Action for sending events to PagerDuty to trigger, acknowledge, or resolve incidents.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "acyphus",
   "private": true,
   "homepage": "https://github.com/ACyphus/pagerduty-send-event",
