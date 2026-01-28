@@ -44,25 +44,25 @@ describe('run', () => {
     const mockResponse = {
       body: { status: 'success', message: 'Event processed' }
     }
-    
+
     mockSet = jest.fn()
     mockSend = jest.fn()
     mockPost = jest.fn()
-    
+
     // Create a chainable mock: post().send().set().set()
     const chainableMock = {
       set: mockSet
     }
-    
+
     // First .set() returns the chainable mock
     // Second .set() resolves with the response
     mockSet
       .mockReturnValueOnce(chainableMock)
       .mockResolvedValueOnce(mockResponse)
-    
+
     mockSend.mockReturnValue(chainableMock)
     mockPost.mockReturnValue({ send: mockSend })
-    
+
     superagent.post = mockPost
 
     // Setup core mock defaults
@@ -128,10 +128,7 @@ describe('run', () => {
       expect(mockSet).toHaveBeenCalledWith('Content-Type', 'application/json')
       expect(mockSet).toHaveBeenCalledWith('x-routing-key', 'test-routing-key')
       expect(core.setFailed).not.toHaveBeenCalled()
-      expect(core.setOutput).toHaveBeenCalledWith(
-        'time',
-        expect.any(String)
-      )
+      expect(core.setOutput).toHaveBeenCalledWith('time', expect.any(String))
     })
 
     test('should send an acknowledge event successfully', async () => {
@@ -349,13 +346,11 @@ describe('run', () => {
     test('should handle API errors gracefully', async () => {
       // Arrange
       const apiError = new Error('API Error: Invalid routing key')
-      
+
       // Reset the mock to reject on the second call
       mockSet.mockReset()
       const chainableMock = { set: mockSet }
-      mockSet
-        .mockReturnValueOnce(chainableMock)
-        .mockRejectedValueOnce(apiError)
+      mockSet.mockReturnValueOnce(chainableMock).mockRejectedValueOnce(apiError)
 
       core.getInput.mockImplementation(name => {
         const inputs = {
@@ -383,7 +378,7 @@ describe('run', () => {
     test('should handle network errors gracefully', async () => {
       // Arrange
       const networkError = new Error('Network error: ECONNREFUSED')
-      
+
       // Reset the mock to reject on the second call
       mockSet.mockReset()
       const chainableMock = { set: mockSet }
@@ -409,9 +404,7 @@ describe('run', () => {
       expect(core.error).toHaveBeenCalledWith(
         expect.stringContaining('Failed to send PagerDuty event')
       )
-      expect(core.setFailed).toHaveBeenCalledWith(
-        'Network error: ECONNREFUSED'
-      )
+      expect(core.setFailed).toHaveBeenCalledWith('Network error: ECONNREFUSED')
     })
 
     test('should handle superagent HTTP errors', async () => {
@@ -419,7 +412,7 @@ describe('run', () => {
       const httpError = new Error('Bad Request')
       httpError.status = 400
       httpError.response = { body: { errors: ['Invalid payload'] } }
-      
+
       // Reset the mock to reject on the second call
       mockSet.mockReset()
       const chainableMock = { set: mockSet }
@@ -657,13 +650,11 @@ describe('run', () => {
     test('should not set output on failure', async () => {
       // Arrange
       const error = new Error('Test error')
-      
+
       // Reset the mock to reject on the second call
       mockSet.mockReset()
       const chainableMock = { set: mockSet }
-      mockSet
-        .mockReturnValueOnce(chainableMock)
-        .mockRejectedValueOnce(error)
+      mockSet.mockReturnValueOnce(chainableMock).mockRejectedValueOnce(error)
 
       core.getInput.mockImplementation(name => {
         const inputs = {
@@ -712,13 +703,11 @@ describe('run', () => {
     test('should log error information on failure', async () => {
       // Arrange
       const error = new Error('Connection timeout')
-      
+
       // Reset the mock to reject on the second call
       mockSet.mockReset()
       const chainableMock = { set: mockSet }
-      mockSet
-        .mockReturnValueOnce(chainableMock)
-        .mockRejectedValueOnce(error)
+      mockSet.mockReturnValueOnce(chainableMock).mockRejectedValueOnce(error)
 
       core.getInput.mockImplementation(name => {
         const inputs = {
