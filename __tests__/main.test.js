@@ -3,7 +3,6 @@
  */
 
 const core = require('@actions/core')
-const github = require('@actions/github')
 const superagent = require('superagent')
 const { run } = require('../src/main')
 
@@ -13,27 +12,24 @@ jest.mock('superagent')
 // Mock @actions/core
 jest.mock('@actions/core')
 
-// Mock @actions/github
-jest.mock('@actions/github', () => ({
-  context: {
-    repo: {
-      repo: 'test-repo',
-      owner: 'test-owner'
-    },
-    sha: 'abc123',
-    ref: 'refs/heads/main',
-    eventName: 'push',
-    actor: 'test-user'
-  }
-}))
-
 describe('run', () => {
   let mockSet
   let mockSend
   let mockPost
   let consoleErrorSpy
+  let originalEnv
 
   beforeEach(() => {
+    // Save original environment
+    originalEnv = { ...process.env }
+
+    // Set up GitHub environment variables
+    process.env.GITHUB_REPOSITORY = 'test-owner/test-repo'
+    process.env.GITHUB_SHA = 'abc123'
+    process.env.GITHUB_REF = 'refs/heads/main'
+    process.env.GITHUB_EVENT_NAME = 'push'
+    process.env.GITHUB_ACTOR = 'test-user'
+
     // Clear all mocks before each test
     jest.clearAllMocks()
 
@@ -74,6 +70,9 @@ describe('run', () => {
   })
 
   afterEach(() => {
+    // Restore environment variables
+    process.env = originalEnv
+
     // Restore console.error after each test
     consoleErrorSpy.mockRestore()
   })
