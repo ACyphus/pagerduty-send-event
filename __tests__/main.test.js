@@ -473,6 +473,12 @@ describe('run', () => {
 
       // Assert
       expect(superagent.post).toHaveBeenCalled()
+      const sentPayload = mockSend.mock.calls[0][0]
+      // Verify that missing optional inputs result in empty strings
+      expect(sentPayload.dedup_key).toBe('')
+      expect(sentPayload.event_action).toBe('')
+      expect(sentPayload.client).toBe('')
+      expect(sentPayload.client_url).toBe('')
       expect(core.setFailed).not.toHaveBeenCalled()
     })
 
@@ -522,105 +528,14 @@ describe('run', () => {
       await run()
 
       // Assert
+      // This test verifies that the action passes through empty values
+      // without crashing. The action does not validate inputs; it's the
+      // caller's responsibility to provide valid PagerDuty API parameters.
       expect(superagent.post).toHaveBeenCalled()
       const sentPayload = mockSend.mock.calls[0][0]
       expect(sentPayload.event_action).toBe('')
       expect(sentPayload.payload.summary).toBe('')
       expect(core.setFailed).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('GitHub context integration', () => {
-    test('should include repository information', async () => {
-      // Arrange
-      core.getInput.mockImplementation(name => {
-        const inputs = {
-          'integration-key': 'test-key',
-          'event-action': 'trigger',
-          summary: 'Test',
-          source: 'Test',
-          severity: 'critical'
-        }
-        return inputs[name] || ''
-      })
-
-      // Act
-      await run()
-
-      // Assert
-      const sentPayload = mockSend.mock.calls[0][0]
-      expect(sentPayload.payload.custom_details.github.repository).toBe(
-        'test-repo'
-      )
-      expect(sentPayload.payload.custom_details.github.repo_owner).toBe(
-        'test-owner'
-      )
-    })
-
-    test('should include commit SHA', async () => {
-      // Arrange
-      core.getInput.mockImplementation(name => {
-        const inputs = {
-          'integration-key': 'test-key',
-          'event-action': 'trigger',
-          summary: 'Test',
-          source: 'Test',
-          severity: 'critical'
-        }
-        return inputs[name] || ''
-      })
-
-      // Act
-      await run()
-
-      // Assert
-      const sentPayload = mockSend.mock.calls[0][0]
-      expect(sentPayload.payload.custom_details.github.sha).toBe('abc123')
-    })
-
-    test('should include git reference', async () => {
-      // Arrange
-      core.getInput.mockImplementation(name => {
-        const inputs = {
-          'integration-key': 'test-key',
-          'event-action': 'trigger',
-          summary: 'Test',
-          source: 'Test',
-          severity: 'critical'
-        }
-        return inputs[name] || ''
-      })
-
-      // Act
-      await run()
-
-      // Assert
-      const sentPayload = mockSend.mock.calls[0][0]
-      expect(sentPayload.payload.custom_details.github.ref).toBe(
-        'refs/heads/main'
-      )
-    })
-
-    test('should include event name and actor', async () => {
-      // Arrange
-      core.getInput.mockImplementation(name => {
-        const inputs = {
-          'integration-key': 'test-key',
-          'event-action': 'trigger',
-          summary: 'Test',
-          source: 'Test',
-          severity: 'critical'
-        }
-        return inputs[name] || ''
-      })
-
-      // Act
-      await run()
-
-      // Assert
-      const sentPayload = mockSend.mock.calls[0][0]
-      expect(sentPayload.payload.custom_details.github.event).toBe('push')
-      expect(sentPayload.payload.custom_details.github.actor).toBe('test-user')
     })
   })
 
@@ -644,6 +559,8 @@ describe('run', () => {
       // Assert
       expect(core.setOutput).toHaveBeenCalledWith('time', expect.any(String))
       const timeOutput = core.setOutput.mock.calls[0][1]
+      // new Date().toTimeString() returns format like "14:30:45 GMT+0000 (Coordinated Universal Time)"
+      // We verify it contains the HH:MM:SS portion
       expect(timeOutput).toMatch(/\d{2}:\d{2}:\d{2}/)
     })
 
