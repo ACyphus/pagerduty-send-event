@@ -4,6 +4,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
     groups:
       actions-minor:
         update-types:
@@ -14,6 +17,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
     groups:
       npm-development:
         dependency-type: development
