@@ -67,7 +67,7 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^2.0.3",
+    "@actions/core": "^3.0.0",
     "superagent": "^10.3.0"
   },
   "devDependencies": {
