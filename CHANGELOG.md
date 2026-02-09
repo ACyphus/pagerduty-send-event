@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/ACyphus/pagerduty-send-event/compare/v1.1.0...v1.2.0) (2026-02-09)
+
+
+### Features
+
+* auto-format CHANGELOG.md in release-please workflow ([d8e62c2](https://github.com/ACyphus/pagerduty-send-event/commit/d8e62c209a766e0af1951dd758022e4d208d4c1c))
+
+
+### Bug Fixes
+
+* format CHANGELOG.md with Prettier to resolve CI formatting issues ([385dab1](https://github.com/ACyphus/pagerduty-send-event/commit/385dab1d5fe4d9aeb5f64d88f1897622b3e3310f))
+* remove format-changelog job and exclude CHANGELOG.md from Prettier ([740d89a](https://github.com/ACyphus/pagerduty-send-event/commit/740d89aa93b4bc7b5ccdb209129641fd4b0cf526))
+
 ## [1.1.0](https://github.com/ACyphus/pagerduty-send-event/compare/v1.0.1...v1.1.0) (2026-01-28)
 
 ### Features
