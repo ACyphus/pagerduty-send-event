@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/ACyphus/pagerduty-send-event/compare/v1.2.0...v1.3.0) (2026-05-11)
+
+
+### Features
+
+* **deps:** bump @actions/core to ^3 ([601d259](https://github.com/ACyphus/pagerduty-send-event/commit/601d25933c0e1c2ef331b14bbbd751de04b60947)), closes [#60](https://github.com/ACyphus/pagerduty-send-event/issues/60)
+
 ## [1.2.0](https://github.com/ACyphus/pagerduty-send-event/compare/v1.1.0...v1.2.0) (2026-03-23)
 
 
