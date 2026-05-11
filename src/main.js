@@ -1,5 +1,5 @@
-const core = require('@actions/core')
-const superagent = require('superagent')
+import * as core from '@actions/core'
+import superagent from 'superagent'
 
 /**
  * Get GitHub context from environment variables.
@@ -103,6 +103,4 @@ async function run() {
   }
 }
 
-module.exports = {
-  run
-}
+export { run }

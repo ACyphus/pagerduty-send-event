@@ -2,15 +2,27 @@
  * Unit tests for src/main.js
  */
 
-const core = require('@actions/core')
-const superagent = require('superagent')
-const { run } = require('../src/main')
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
+import * as core from '@actions/core'
+import superagent from 'superagent'
+import { run } from '../src/main.js'
 
-// Mock superagent
-jest.mock('superagent')
+// Mock superagent — default import shape (CJS package via ESM interop)
+vi.mock('superagent', () => ({
+  default: {
+    post: vi.fn()
+  }
+}))
 
-// Mock @actions/core
-jest.mock('@actions/core')
+// Mock @actions/core — pre-populate every method we use so namespace bindings
+// resolve to controllable vi.fn()s
+vi.mock('@actions/core', () => ({
+  getInput: vi.fn(),
+  setOutput: vi.fn(),
+  setFailed: vi.fn(),
+  info: vi.fn(),
+  error: vi.fn()
+}))
 
 describe('run', () => {
   let mockSet
@@ -31,19 +43,19 @@ describe('run', () => {
     process.env.GITHUB_ACTOR = 'test-user'
 
     // Clear all mocks before each test
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Suppress console.error during tests to avoid cluttering output
-    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     // Setup superagent mock chain with proper chaining
     const mockResponse = {
       body: { status: 'success', message: 'Event processed' }
     }
 
-    mockSet = jest.fn()
-    mockSend = jest.fn()
-    mockPost = jest.fn()
+    mockSet = vi.fn()
+    mockSend = vi.fn()
+    mockPost = superagent.post
 
     // Create a chainable mock: post().send().set().set()
     const chainableMock = {
@@ -58,15 +70,6 @@ describe('run', () => {
 
     mockSend.mockReturnValue(chainableMock)
     mockPost.mockReturnValue({ send: mockSend })
-
-    superagent.post = mockPost
-
-    // Setup core mock defaults
-    core.getInput = jest.fn()
-    core.setOutput = jest.fn()
-    core.setFailed = jest.fn()
-    core.info = jest.fn()
-    core.error = jest.fn()
   })
 
   afterEach(() => {

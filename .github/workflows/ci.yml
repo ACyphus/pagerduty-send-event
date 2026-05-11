@@ -43,3 +43,23 @@ jobs:
       - name: Test
         id: npm-ci-test
         run: npm run ci-test
+
+      - name: Smoke-load bundled dist/
+        id: smoke-load
+        run: |
+          set -o pipefail
+          output=$(env \
+            INPUT_INTEGRATION-KEY=00000000000000000000000000000000 \
+            INPUT_EVENT-ACTION=resolve \
+            INPUT_DEDUP-KEY=ci-smoke \
+            INPUT_SUMMARY=ci-smoke \
+            INPUT_SOURCE=ci-smoke \
+            INPUT_SEVERITY=info \
+            INPUT_CLIENT=ci-smoke \
+            INPUT_CLIENT-URL=https://example.invalid \
+            node dist/index.js 2>&1) || true
+          echo "$output"
+          if echo "$output" | grep -qE "ERR_REQUIRE_ESM|ERR_UNKNOWN_FILE_EXTENSION|ERR_MODULE_NOT_FOUND|Cannot use import|SyntaxError"; then
+            echo "::error::Bundle failed to load under Node ESM"
+            exit 1
+          fi
