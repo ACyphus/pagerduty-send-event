@@ -1,9 +1,8 @@
-const babelParser = require('@babel/eslint-parser')
-const jest = require('eslint-plugin-jest')
-const prettier = require('eslint-plugin-prettier')
-const js = require('@eslint/js')
+import js from '@eslint/js'
+import vitest from '@vitest/eslint-plugin'
+import prettier from 'eslint-plugin-prettier'
 
-module.exports = [
+export default [
   js.configs.recommended,
   {
     ignores: ['**/node_modules/**', '**/dist/**', '**/coverage/**', '**/*.json']
@@ -11,27 +10,13 @@ module.exports = [
   {
     files: ['**/*.js'],
     languageOptions: {
-      ecmaVersion: 2023,
-      sourceType: 'commonjs',
-      parser: babelParser,
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-          babelrc: false,
-          configFile: false,
-          presets: ['jest']
-        }
-      },
+      ecmaVersion: 2024,
+      sourceType: 'module',
       globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
         console: 'readonly',
         process: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-        module: 'readonly',
-        require: 'readonly',
-        exports: 'writable',
         Buffer: 'readonly',
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
@@ -54,17 +39,12 @@ module.exports = [
   },
   {
     files: ['__tests__/**/*.js', '**/*.test.js'],
-    languageOptions: {
-      globals: {
-        ...jest.environments.globals.globals
-      }
-    },
     plugins: {
-      jest,
+      vitest,
       prettier
     },
     rules: {
-      ...jest.configs.recommended.rules,
+      ...vitest.configs.recommended.rules,
       'prettier/prettier': 'error'
     }
   }
