@@ -21,6 +21,10 @@ updates:
       prefix: 'chore'
       include: 'scope'
     groups:
+      vitest:
+        patterns:
+          - vitest
+          - '@vitest/coverage-v8'
       npm-development:
         dependency-type: development
         update-types:
