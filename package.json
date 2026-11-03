@@ -49,12 +49,12 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@vercel/ncc": "^0.45.0",
-    "@vitest/coverage-v8": "^5.0.3",
-    "@vitest/eslint-plugin": "^1.6.27",
-    "eslint": "^10.12.0",
-    "eslint-plugin-prettier": "^5.5.6",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/eslint-plugin": "^1.6.28",
+    "eslint": "^10.13.0",
+    "eslint-plugin-prettier": "^5.5.7",
     "husky": "^9.1.7",
-    "prettier": "^3.9.9",
+    "prettier": "^3.9.10",
     "vitest": "^5.0.0"
   }
 }
